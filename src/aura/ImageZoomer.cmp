@@ -1,0 +1,78 @@
+<!--
+ - Created by ctuser on 08.01.2019.
+ -->
+
+<aura:component description="ImageZoomer">
+
+    <aura:attribute name="showLens" type="Boolean" default="false" access="private"/>
+
+    <aura:attribute name="width" type="String"/>
+    <aura:attribute name="height" type="String"/>
+
+    <aura:attribute name="lensSize" type="String" default="300px"/>
+
+    <aura:attribute name="zoom" type="Integer" default="3"/>
+
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+
+    <div style="display: block">
+
+        <div aura:id="imgContainer"
+             style="{!'width:' + v.width + '; height:' + v.height + '; position: relative; display:inline-block; cursor: zoom-in'}"
+             onmouseleave="{!c.hideImageZoomer}" onmousemove="{!c.onmousemove}"
+             onclick="{!c.showFullScreenMode}" onmousedown="" onwheel="{!c.changeZoomValue}">
+
+        {!v.body}
+
+            <div onclick="{!c.showImageZoomer}" class="zoomBtn">
+                <lightning:icon iconName="utility:zoomin" size="small"/>
+            </div>
+
+            <div aura:id="lensShadow" class="{!v.showLens? 'img-zoom-shadow' : 'slds-hide'}"/>
+
+            <div class="{!v.showLens? '' : 'slds-hide'}" style="text-align: center;">
+                Scroll the wheel to change zoom
+            </div>
+
+        </div>
+    </div>
+
+
+    <div aura:id="lens" class="{!v.showLens? 'img-zoom-lens' : 'slds-hide'}"
+         style="{!'width: ' + v.lensSize + '; height: ' + v.lensSize + ';'}" id="lens"/>
+
+    <div class="demo-only slds-hide" aura:id="modalWindow" style="cursor: zoom-out">
+        <section role="dialog" class="modal slds-modal slds-fade-in-open"
+                 onclick="{!c.closeFullScreenMode}" onwheel="{!c.preventDefault}" aria-modal="true">
+
+            <div>
+
+                <div onmousedown="{!c.startMoving}" onwheel="{!c.wheelZoom}"
+                     onclick="{!c.stopPropagation}" aura:id="fullSizeImageBlock" class="modalWindow"
+                     style="height: 0px; cursor: move"/>
+
+                <div class="rotateBtnContainer">
+
+                    <lightning:button onclick="{!c.rotateLeft}">
+
+                        <lightning:icon iconName="utility:undo" size="small"/>
+
+                    </lightning:button>
+
+                    <lightning:button onclick="{!c.rotateRight}">
+
+                        <lightning:icon iconName="utility:redo" size="small"/>
+
+                    </lightning:button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <div class="slds-backdrop slds-backdrop_open"></div>
+
+    </div>
+
+</aura:component>
