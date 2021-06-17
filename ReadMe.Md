@@ -1,7 +1,7 @@
 # Lightning-ImageViewer
 Component that wraps img and adds some viewing finctionality like zooming and opening in full screen
 
-It finds only first aura:iteration tag, other aura:iteration tags would be ignored
+It finds only first img tag, other img tags would be ignored
 
 Example of using this component:
 
